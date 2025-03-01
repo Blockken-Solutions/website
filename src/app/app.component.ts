@@ -1,33 +1,28 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
-import {ProgressBarModule} from 'primeng/progressbar';
-import {MessageModule} from 'primeng/message';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, ProgressBarModule, MessageModule],
-  styleUrl: './app.component.scss',
+  imports: [RouterOutlet],
+  styleUrl: './app.component.css',
   template: `
-    <div class="">
-      <h1 class="p-mb-3">
-        <i class="pi pi-cog p-mr-2"></i>
-        Welcome to Blockken Solutions
-      </h1>
-      <p class="p-mb-3">Our website is currently under construction. Please check back soon!</p>
-
-      <p-progressBar mode="indeterminate" class="p-mb-3"></p-progressBar>
-
-      <!-- Display a Message -->
-      <p-message severity="info" text="We are building something amazing!"></p-message>
-
-      <!-- Footer Section -->
-      <div class="p-mt-5">
-        <p class="p-mb-2">©2025 BlockkenSolutions | All Rights Reserved</p>
+    <section class="h-screen flex flex-col items-center justify-center text-center bg-gradient-to-b from-gray-900 to-gray-800 text-white">
+      <div class="animate-pulse">
+        <h1 class="text-5xl font-bold">🚀 Coming Soon!</h1>
+        <p class="text-lg mt-4">Something awesome is on the way. Stay tuned!</p>
       </div>
-    </div>
+
+      <div class="mt-8 w-64">
+        <progress class="progress progress-primary w-full" value="70" max="100"></progress>
+      </div>
+
+      <div class="absolute bottom-10 text-gray-400 text-sm animate-bounce">
+        <p>Website under construction... 🚧</p>
+      </div>
+    </section>
+
     <router-outlet/>
   `,
 })
 export class AppComponent {
-  protected readonly Date = Date;
 }
