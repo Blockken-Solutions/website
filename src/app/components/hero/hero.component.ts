@@ -1,45 +1,50 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { TypewriterComponent } from '../shared/typewriter.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-hero',
   standalone: true,
-  imports: [CommonModule, TypewriterComponent],
+  imports: [CommonModule, TypewriterComponent, NgOptimizedImage, RouterLink],
   template: `
     <section class="hero min-h-screen bg-base-200">
       <div class="hero-content flex-col lg:flex-row-reverse">
         <div class="avatar">
           <div class="w-64 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-            <img src="assets/images/profile.jpg" alt="Profile" />
+            <img ngSrc="/images/profile.jpg" alt="Profile" height="2048" width="1154" />
           </div>
         </div>
         <div>
           <h1 class="text-5xl font-bold">
             Hello, I'm
-            <span class="text-primary">Your Name</span>
+            <span class="text-primary">Wouter Blockken</span>
           </h1>
           <app-typewriter
             [textArray]="[
-              'Frontend Developer',
-              'Angular Specialist',
-              'UI/UX Enthusiast',
+              'Fullstack Java & Angular Developer',
+              'AWS Solutions Architect',
               'Problem Solver',
             ]"
-            class="text-2xl py-2 text-secondary font-semibold"
+            class="text-2xl py-2 text-accent font-semibold"
           ></app-typewriter>
           <p class="py-6 max-w-2xl">
-            A passionate software developer specializing in modern web technologies. I create
-            elegant, responsive, and high-performance applications that deliver exceptional user
-            experiences.
+            A passionate full-stack developer with {{ experienceYears }} years of experience in
+            modern web technologies. I specialize in building elegant, responsive, and
+            high-performance applications that deliver exceptional user experiences. With a strong
+            background in Java, Angular, and AWS, I thrive in dynamic environments where I can apply
+            my technical expertise and continue to challenge myself. My experience as a scout leader
+            has strengthened my leadership and collaboration skills, making me an effective team
+            player. Driven by a constant desire to learn, I am always seeking new ways to innovate
+            and grow.
           </p>
           <div class="flex gap-4">
-            <a href="#contact" class="btn btn-primary">Get in Touch</a>
-            <a href="#projects" class="btn btn-outline">View Projects</a>
+            <a routerLink="/contact" class="btn btn-primary">Get in Touch</a>
+            <a routerLink="/projects" class="btn btn-outline">View Projects</a>
           </div>
           <div class="mt-6 flex gap-4">
             <a
-              href="https://github.com/yourusername"
+              href="https://github.com/blockken-solutions"
               target="_blank"
               class="btn btn-circle btn-outline"
             >
@@ -56,7 +61,7 @@ import { TypewriterComponent } from '../shared/typewriter.component';
               </svg>
             </a>
             <a
-              href="https://linkedin.com/in/yourusername"
+              href="https://www.linkedin.com/in/wouter-blockken/"
               target="_blank"
               class="btn btn-circle btn-outline"
             >
@@ -72,27 +77,23 @@ import { TypewriterComponent } from '../shared/typewriter.component';
                 />
               </svg>
             </a>
-            <a
-              href="https://twitter.com/yourusername"
-              target="_blank"
-              class="btn btn-circle btn-outline"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <path
-                  d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"
-                />
-              </svg>
-            </a>
           </div>
         </div>
       </div>
     </section>
   `,
 })
-export class HeroComponent {}
+export class HeroComponent {
+  get experienceYears(): string {
+    const startDate = new Date(2020, 8); // September 2020 (Month is 0-based)
+    const today = new Date();
+
+    const diffInMonths =
+      (today.getFullYear() - startDate.getFullYear()) * 12 +
+      (today.getMonth() - startDate.getMonth());
+    const years = Math.floor(diffInMonths / 12);
+    const hasHalfYear = diffInMonths % 12 >= 6; // If at least 6 months have passed
+
+    return hasHalfYear ? `${years}.5` : `${years}`;
+  }
+}

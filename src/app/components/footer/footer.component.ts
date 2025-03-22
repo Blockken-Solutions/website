@@ -1,17 +1,19 @@
 // app-footer.component.ts
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-footer',
   standalone: true,
+  imports: [RouterLink],
   template: `
     <footer class="bg-base-300 py-8">
       <div class="container mx-auto px-4">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <h3 class="text-lg font-bold mb-4">Your Name</h3>
+            <h3 class="text-lg font-bold mb-4">Wouter Blockken</h3>
             <p class="mb-2">
-              Frontend Developer based in San Francisco, specialized in building exceptional digital
+              Fullstack Developer based in Belgium, specialized in building exceptional digital
               experiences.
             </p>
             <p>Let's build something amazing together!</p>
@@ -20,12 +22,12 @@ import { Component } from '@angular/core';
           <div>
             <h3 class="text-lg font-bold mb-4">Quick Links</h3>
             <ul class="space-y-2">
-              <li><a href="#hero" class="link link-hover">Home</a></li>
-              <li><a href="#about" class="link link-hover">About</a></li>
-              <li><a href="#skills" class="link link-hover">Skills</a></li>
-              <li><a href="#projects" class="link link-hover">Projects</a></li>
-              <li><a href="#experience" class="link link-hover">Experience</a></li>
-              <li><a href="#contact" class="link link-hover">Contact</a></li>
+              <li><a routerLink="/" class="link link-hover">Home</a></li>
+              <li><a routerLink="/about" class="link link-hover">About</a></li>
+              <li><a routerLink="/skills" class="link link-hover">Skills</a></li>
+              <li><a routerLink="/projects" class="link link-hover">Projects</a></li>
+              <li><a routerLink="/experience" class="link link-hover">Experience</a></li>
+              <li><a routerLink="/contact" class="link link-hover">Contact</a></li>
             </ul>
           </div>
 
@@ -33,7 +35,7 @@ import { Component } from '@angular/core';
             <h3 class="text-lg font-bold mb-4">Connect</h3>
             <div class="flex space-x-4 mb-4">
               <a
-                href="https://github.com/yourusername"
+                href="https://github.com/blockken-solutions"
                 target="_blank"
                 class="btn btn-circle btn-outline btn-sm"
               >
@@ -50,7 +52,7 @@ import { Component } from '@angular/core';
                 </svg>
               </a>
               <a
-                href="https://linkedin.com/in/yourusername"
+                href="https://www.linkedin.com/in/wouter-blockken/"
                 target="_blank"
                 class="btn btn-circle btn-outline btn-sm"
               >
@@ -66,26 +68,9 @@ import { Component } from '@angular/core';
                   />
                 </svg>
               </a>
-              <a
-                href="https://twitter.com/yourusername"
-                target="_blank"
-                class="btn btn-circle btn-outline btn-sm"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"
-                  />
-                </svg>
-              </a>
             </div>
             <p>
-              <a href="mailto:your.email@example.com" class="link link-hover flex items-center">
+              <a href="mailto:wouter@blockken.solutions" class="link link-hover flex items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="h-4 w-4 mr-2"
@@ -109,18 +94,7 @@ import { Component } from '@angular/core';
         <div class="divider mt-6 mb-6"></div>
 
         <div class="text-center">
-          <p>© {{ currentYear }} Your Name. All rights reserved.</p>
-          <p class="mt-2 text-sm opacity-70">
-            Built with
-            <a href="https://angular.io/" target="_blank" class="link link-hover">Angular</a>
-            ,
-            <a href="https://tailwindcss.com/" target="_blank" class="link link-hover">
-              Tailwind CSS
-            </a>
-            and
-            <a href="https://daisyui.com/" target="_blank" class="link link-hover">DaisyUI</a>
-            .
-          </p>
+          <p>© {{ currentYear }} Blockken Solutions. All rights reserved.</p>
         </div>
       </div>
     </footer>
@@ -128,4 +102,5 @@ import { Component } from '@angular/core';
 })
 export class FooterComponent {
   currentYear: number = new Date().getFullYear();
+  protected readonly RouterLink = RouterLink;
 }

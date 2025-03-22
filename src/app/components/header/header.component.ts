@@ -1,11 +1,12 @@
 import { Component, Output, EventEmitter, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ThemeService } from '../../services/theme.service';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink, RouterLinkActive],
   template: `
     <header class="sticky top-0 z-30 bg-base-100 shadow-md">
       <div class="navbar container mx-auto">
@@ -31,26 +32,48 @@ import { ThemeService } from '../../services/theme.service';
               tabindex="0"
               class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
-              <li><a href="#about">About</a></li>
-              <li><a href="#skills">Skills</a></li>
-              <li><a href="#projects">Projects</a></li>
-              <li><a href="#experience">Experience</a></li>
-              <li><a href="#contact">Contact</a></li>
+              <li>
+                <a
+                  routerLink="/"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                  routerLinkActive="router-link-active"
+                >
+                  Home
+                </a>
+              </li>
+              <li><a routerLink="/about" routerLinkActive="router-link-active">About</a></li>
+              <li><a routerLink="/skills" routerLinkActive="router-link-active">Skills</a></li>
+              <li><a routerLink="/projects" routerLinkActive="router-link-active">Projects</a></li>
+              <li>
+                <a routerLink="/experience" routerLinkActive="router-link-active">Experience</a>
+              </li>
+              <li><a routerLink="/contact" routerLinkActive="router-link-active">Contact</a></li>
             </ul>
           </div>
-          <a class="btn btn-ghost normal-case text-xl">
-            Dev
-            <span class="text-primary">Portfolio</span>
+          <a routerLink="/" class="btn btn-ghost normal-case text-xl">
+            Blockken
+            <span class="text-primary">Solutions</span>
           </a>
         </div>
 
         <div class="navbar-center hidden lg:flex">
           <ul class="menu menu-horizontal px-1">
-            <li><a href="#about">About</a></li>
-            <li><a href="#skills">Skills</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#experience">Experience</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li>
+              <a
+                routerLink="/"
+                [routerLinkActiveOptions]="{ exact: true }"
+                routerLinkActive="router-link-active"
+              >
+                Home
+              </a>
+            </li>
+            <li><a routerLink="/about" routerLinkActive="router-link-active">About</a></li>
+            <li><a routerLink="/skills" routerLinkActive="router-link-active">Skills</a></li>
+            <li><a routerLink="/projects" routerLinkActive="router-link-active">Projects</a></li>
+            <li>
+              <a routerLink="/experience" routerLinkActive="router-link-active">Experience</a>
+            </li>
+            <li><a routerLink="/contact" routerLinkActive="router-link-active">Contact</a></li>
           </ul>
         </div>
 
@@ -76,13 +99,11 @@ import { ThemeService } from '../../services/theme.service';
               tabindex="0"
               class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
             >
-              <li><a (click)="changeTheme('light')">Light</a></li>
-              <li><a (click)="changeTheme('dark')">Dark</a></li>
-              <li><a (click)="changeTheme('synthwave')">Synthwave</a></li>
-              <li><a (click)="changeTheme('cyberpunk')">Cyberpunk</a></li>
+              <li><a (click)="changeTheme('nord')">Light</a></li>
+              <li><a (click)="changeTheme('night')">Dark</a></li>
             </ul>
           </div>
-          <a href="#contact" class="btn btn-primary ml-4">Hire Me</a>
+          <a routerLink="/contact" class="btn btn-primary ml-4">Hire Me</a>
         </div>
       </div>
     </header>
