@@ -16,7 +16,6 @@ import { ThemeService } from './services/theme.service';
   standalone: true,
   imports: [
     CommonModule,
-    RouterOutlet,
     HeaderComponent,
     HeroComponent,
     AboutComponent,
