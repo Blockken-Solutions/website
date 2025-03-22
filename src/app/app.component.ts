@@ -1,41 +1,55 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { LucideAngularModule, MonitorCog } from 'lucide-angular';
+import { HeaderComponent } from './components/header/header.component';
+import { HeroComponent } from './components/hero/hero.component';
+import { AboutComponent } from './components/about/about.component';
+import { SkillsComponent } from './components/skills/skills.component';
+import { ProjectsComponent } from './components/projects/projects.component';
+import { ExperienceComponent } from './components/experience/experience.component';
+import { ContactComponent } from './components/contact/contact.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { ThemeService } from './services/theme.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, LucideAngularModule],
-  styleUrl: './app.component.css',
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterOutlet,
+    HeaderComponent,
+    HeroComponent,
+    AboutComponent,
+    SkillsComponent,
+    ProjectsComponent,
+    ExperienceComponent,
+    ContactComponent,
+    FooterComponent,
+    ExperienceComponent,
+  ],
+  providers: [ThemeService],
   template: `
-    <section
-      class="h-screen flex flex-col items-center justify-center text-center bg-gradient-to-b from-gray-900 to-gray-800 text-white"
-    >
-      <div class="animate-pulse">
-        <h1 class="text-5xl font-bold">🚀 Coming Soon!</h1>
-        <p class="text-lg mt-4">Something awesome is on the way. Stay tuned!</p>
-      </div>
-
-      <div class="mt-8 w-64">
-        <progress
-          class="progress progress-primary w-full"
-          value="70"
-          max="100"
-        ></progress>
-      </div>
-      <lucide-icon
-        [name]="monitorCog"
-        [size]="40"
-        color="#f4f6f6"
-        [strokeWidth]="1.25"
-      ></lucide-icon>
-      <div class="absolute bottom-10 text-gray-400 text-sm animate-bounce">
-        <p>Website under construction... 🚧</p>
-      </div>
-    </section>
-
-    <router-outlet />
+    <div class="min-h-screen flex flex-col" [attr.data-theme]="currentTheme">
+      <app-header (themeChanged)="changeTheme($event)"></app-header>
+      <main class="flex-grow">
+        <app-hero></app-hero>
+        <app-about></app-about>
+        <app-skills></app-skills>
+        <app-projects></app-projects>
+        <app-experience></app-experience>
+        <app-contact></app-contact>
+      </main>
+      <app-footer></app-footer>
+    </div>
   `,
 })
 export class AppComponent {
-  monitorCog = MonitorCog;
+  currentTheme = 'dark';
+
+  constructor(private themeService: ThemeService) {}
+
+  changeTheme(theme: string) {
+    this.themeService.setTheme(theme);
+    this.currentTheme = this.themeService.theme;
+  }
 }

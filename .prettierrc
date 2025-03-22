@@ -1,14 +1,28 @@
 {
   "semi": true,
   "singleQuote": true,
-  "trailingComma": "es5",
+  "trailingComma": "all",
   "tabWidth": 2,
   "useTabs": false,
   "bracketSpacing": true,
   "jsxBracketSameLine": false,
   "arrowParens": "always",
-  "printWidth": 80,
+  "printWidth": 100,
   "endOfLine": "lf",
-  "htmlWhitespaceSensitivity": "css",
-  "quoteProps": "as-needed"
+  "htmlWhitespaceSensitivity": "ignore",
+  "quoteProps": "consistent",
+  "overrides": [
+    {
+      "files": "*.component.html",
+      "options": {
+        "printWidth": 120
+      }
+    },
+    {
+      "files": "*.json",
+      "options": {
+        "trailingComma": "none"
+      }
+    }
+  ]
 }
