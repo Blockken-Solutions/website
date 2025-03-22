@@ -6,43 +6,10 @@ import { DOCUMENT } from '@angular/common';
 })
 export class ThemeService {
   private document = inject(DOCUMENT);
-  private themeSignal = signal<string>('dark');
+  private themeSignal = signal<string>('night');
 
   // List of available DaisyUI themes
-  readonly availableThemes = [
-    'light',
-    'dark',
-    'cupcake',
-    'bumblebee',
-    'emerald',
-    'corporate',
-    'synthwave',
-    'retro',
-    'cyberpunk',
-    'valentine',
-    'halloween',
-    'garden',
-    'forest',
-    'aqua',
-    'lofi',
-    'pastel',
-    'fantasy',
-    'wireframe',
-    'black',
-    'luxury',
-    'dracula',
-    'cmyk',
-    'autumn',
-    'business',
-    'acid',
-    'lemonade',
-    'night',
-    'coffee',
-    'winter',
-    'dim',
-    'nord',
-    'sunset',
-  ];
+  readonly availableThemes = ['night', 'nord'];
 
   get theme() {
     return this.themeSignal();
@@ -52,7 +19,7 @@ export class ThemeService {
     // Validate theme is in available themes
     if (!this.availableThemes.includes(theme)) {
       console.warn(`Theme "${theme}" is not a valid DaisyUI theme. Using "dark" instead.`);
-      theme = 'dark';
+      theme = 'night';
     }
 
     this.themeSignal.set(theme);

@@ -26,7 +26,7 @@ import { RouterLink } from '@angular/router';
               'AWS Solutions Architect',
               'Problem Solver',
             ]"
-            class="text-2xl py-2 text-accent font-semibold"
+            class="text-2xl py-2 text-secondary font-semibold"
           ></app-typewriter>
           <p class="py-6 max-w-2xl">
             A passionate full-stack developer with {{ experienceYears }} years of experience in

@@ -21,7 +21,7 @@ import { ThemeService } from './services/theme.service';
   `,
 })
 export class AppComponent {
-  currentTheme = 'dark';
+  currentTheme = 'night';
 
   constructor(private themeService: ThemeService) {}
 
