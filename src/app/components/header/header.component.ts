@@ -32,15 +32,15 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
               tabindex="0"
               class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
-              <li>
-                <a
-                  routerLink="/"
-                  [routerLinkActiveOptions]="{ exact: true }"
-                  routerLinkActive="router-link-active"
-                >
-                  Home
-                </a>
-              </li>
+              <!--              <li>-->
+              <!--                <a-->
+              <!--                  routerLink="/"-->
+              <!--                  [routerLinkActiveOptions]="{ exact: true }"-->
+              <!--                  routerLinkActive="router-link-active"-->
+              <!--                >-->
+              <!--                  Home-->
+              <!--                </a>-->
+              <!--              </li>-->
               <li><a routerLink="/about" routerLinkActive="router-link-active">About</a></li>
               <li><a routerLink="/skills" routerLinkActive="router-link-active">Skills</a></li>
               <li><a routerLink="/projects" routerLinkActive="router-link-active">Projects</a></li>
@@ -58,15 +58,15 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 
         <div class="navbar-center hidden lg:flex">
           <ul class="menu menu-horizontal px-1">
-            <li>
-              <a
-                routerLink="/"
-                [routerLinkActiveOptions]="{ exact: true }"
-                routerLinkActive="router-link-active"
-              >
-                Home
-              </a>
-            </li>
+            <!--            <li>-->
+            <!--              <a-->
+            <!--                routerLink="/"-->
+            <!--                [routerLinkActiveOptions]="{ exact: true }"-->
+            <!--                routerLinkActive="router-link-active"-->
+            <!--              >-->
+            <!--                Home-->
+            <!--              </a>-->
+            <!--            </li>-->
             <li><a routerLink="/about" routerLinkActive="router-link-active">About</a></li>
             <li><a routerLink="/skills" routerLinkActive="router-link-active">Skills</a></li>
             <li><a routerLink="/projects" routerLinkActive="router-link-active">Projects</a></li>
