@@ -89,7 +89,7 @@ interface SkillCategory {
                       @if (skill.simpleIcon) {
                         <span class="w-4 h-4" [innerHTML]="getSimpleIcon(skill.simpleIcon)"></span>
                       } @else {
-                        <fa-icon [icon]="skill.icon" class="w-4 h-4" />
+                        <fa-icon [icon]="skill.icon" class="w-4 h-4 flex" />
                       }
                       {{ skill.name }}
                     </div>
