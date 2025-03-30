@@ -9,9 +9,8 @@ import { ThemeService } from './services/theme.service';
   selector: 'app-root',
   standalone: true,
   imports: [CommonModule, HeaderComponent, RouterOutlet, FooterComponent],
-  providers: [ThemeService],
   template: `
-    <div class="min-h-screen flex flex-col" [attr.data-theme]="currentTheme">
+    <div class="min-h-screen flex flex-col">
       <app-header (themeChanged)="changeTheme($event)"></app-header>
       <main class="flex-grow">
         <router-outlet></router-outlet>
@@ -21,12 +20,14 @@ import { ThemeService } from './services/theme.service';
   `,
 })
 export class AppComponent {
-  currentTheme = 'night';
-
-  constructor(private themeService: ThemeService) {}
+  constructor(private themeService: ThemeService) {
+    const savedTheme = localStorage.getItem('portfolio-theme');
+    if (savedTheme && this.themeService.availableThemes.includes(savedTheme)) {
+      this.themeService.setTheme(savedTheme);
+    }
+  }
 
   changeTheme(theme: string) {
     this.themeService.setTheme(theme);
-    this.currentTheme = this.themeService.theme;
   }
 }

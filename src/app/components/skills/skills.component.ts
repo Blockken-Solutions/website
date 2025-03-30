@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
   faDesktop,
@@ -29,15 +29,17 @@ import {
   faSass,
   faGoogle,
   faJs,
+  faGolang,
 } from '@fortawesome/free-brands-svg-icons';
-import * as SimpleIcons from 'simple-icons';
-
-interface SimpleIcon {
-  title: string;
-  slug: string;
-  hex: string;
-  svg: string;
-}
+import {
+  siGatsby,
+  siSpring,
+  siHibernate,
+  siKubernetes,
+  siSelenium,
+  siJest,
+  siSonar,
+} from 'simple-icons/icons';
 
 interface Skill {
   name: string;
@@ -83,13 +85,17 @@ interface SkillCategory {
                 <div class="flex flex-wrap gap-2 mt-4">
                   @for (skill of category.skills; track skill.name) {
                     <div
-                      class="badge badge-lg py-3 gap-1.5"
-                      [ngClass]="skill.isPrimary ? 'badge-primary' : 'badge-outline'"
+                      class="badge badge-primary badge-lg py-3 gap-1.5"
+                      [ngClass]="!skill.isPrimary ? 'badge-outline' : ''"
                     >
                       @if (skill.simpleIcon) {
-                        <span class="w-4 h-4" [innerHTML]="getSimpleIcon(skill.simpleIcon)"></span>
+                        <span
+                          *ngIf="getSimpleIcon(skill.simpleIcon)"
+                          class="w-4 h-4"
+                          [innerHTML]="getSimpleIcon(skill.simpleIcon)"
+                        ></span>
                       } @else {
-                        <fa-icon [icon]="skill.icon" class="w-4 h-4 flex" />
+                        <fa-icon [icon]="skill.icon" class="w-4 h-4 flex mr-1" />
                       }
                       {{ skill.name }}
                     </div>
@@ -100,7 +106,10 @@ interface SkillCategory {
           }
         </div>
 
-        <div class="mt-16 p-8 bg-base-100 rounded-lg shadow-lg">
+        <div
+          *ngIf="otherTechnologies.length > 0"
+          class="mt-16 p-8 bg-base-100 rounded-lg shadow-lg"
+        >
           <h3 class="text-xl font-bold text-center mb-8">Additional Technologies</h3>
           <div class="flex flex-wrap justify-center gap-3">
             @for (tech of otherTechnologies; track tech) {
@@ -120,6 +129,16 @@ interface SkillCategory {
   ],
 })
 export class SkillsComponent {
+  iconMap: { [key: string]: any } = {
+    Gatsby: siGatsby,
+    Spring: siSpring,
+    Hibernate: siHibernate,
+    Kubernetes: siKubernetes,
+    Selenium: siSelenium,
+    Jest: siJest,
+    Sonar: siSonar,
+  };
+
   constructor(
     private sanitizer: DomSanitizer,
     library: FaIconLibrary,
@@ -149,12 +168,12 @@ export class SkillsComponent {
       faSass,
       faGoogle,
       faJs,
+      faGolang,
     );
   }
 
-  getSimpleIcon(slug: string) {
-    const iconKey = `si${slug.replace(/ /g, '')}`;
-    const icon = (SimpleIcons as unknown as { [key: string]: SimpleIcon })[iconKey];
+  getSimpleIcon(slug: string): SafeHtml {
+    const icon = this.iconMap[slug];
 
     if (!icon) {
       console.warn(`SimpleIcon not found: ${slug}`);
@@ -175,10 +194,9 @@ export class SkillsComponent {
       name: 'Frontend Development',
       icon: ['fas', 'desktop'],
       skills: [
-        { name: 'Angular 19+', isPrimary: true, icon: ['fab', 'angular'] },
+        { name: 'Angular 4-19', isPrimary: true, icon: ['fab', 'angular'] },
         { name: 'React', icon: ['fab', 'react'] },
         { name: 'GatsbyJS', simpleIcon: 'Gatsby' },
-        { name: 'HTML/CSS', icon: ['fab', 'html5'] },
         { name: 'SCSS', icon: ['fab', 'sass'] },
       ],
     },
@@ -188,9 +206,9 @@ export class SkillsComponent {
       skills: [
         { name: 'Java 8-21', isPrimary: true, icon: ['fab', 'java'] },
         { name: 'Spring Boot', simpleIcon: 'Spring' },
+        { name: 'Golang', icon: ['fab', 'golang'] },
         { name: 'PostgreSQL', icon: ['fas', 'database'] },
         { name: 'Hibernate', simpleIcon: 'Hibernate' },
-        { name: 'JPA', icon: ['fab', 'java'] },
       ],
     },
     {
@@ -209,10 +227,11 @@ export class SkillsComponent {
       icon: ['fas', 'flask'],
       skills: [
         { name: 'JUnit', isPrimary: true, icon: ['fab', 'java'] },
-        { name: 'Wiremock', simpleIcon: 'WireMock' },
+        { name: 'Wiremock', simpleIcon: 'Wiremock' },
         { name: 'Mockito', simpleIcon: 'Mockito' },
         { name: 'Selenium', simpleIcon: 'Selenium' },
         { name: 'Jest', simpleIcon: 'Jest' },
+        { name: 'Sonar', simpleIcon: 'Sonar' },
       ],
     },
     {
@@ -222,7 +241,6 @@ export class SkillsComponent {
         { name: 'AWS', isPrimary: true, icon: ['fab', 'aws'] },
         { name: 'Google Cloud', icon: ['fab', 'google'] },
         { name: 'Azure Cloud', icon: ['fab', 'microsoft'] },
-        { name: 'gRPC', simpleIcon: 'GRPC' },
       ],
     },
     {
@@ -232,24 +250,11 @@ export class SkillsComponent {
         { name: 'Git', isPrimary: true, icon: ['fab', 'git-alt'] },
         { name: 'Jira', icon: ['fab', 'jira'] },
         { name: 'Confluence', icon: ['fab', 'confluence'] },
-        { name: 'Photoshop', simpleIcon: 'AdobePhotoshop' },
+        { name: 'Photoshop', simpleIcon: 'Photoshop' },
         { name: 'Figma', icon: ['fab', 'figma'] },
       ],
     },
   ];
 
-  otherTechnologies: string[] = [
-    'GatsbyJS',
-    'Next.js',
-    'NestJS',
-    'gRPC',
-    'SCSS',
-    'Storybook',
-    'Vite',
-    'Firebase',
-    'Material UI',
-    'Adobe XD',
-    'Redux',
-    'CI/CD',
-  ];
+  otherTechnologies: string[] = [];
 }

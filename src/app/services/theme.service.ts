@@ -6,37 +6,36 @@ import { DOCUMENT } from '@angular/common';
 })
 export class ThemeService {
   private document = inject(DOCUMENT);
-  private themeSignal = signal<string>('night');
+  private themeSignal = signal<string>('night'); // Default theme
 
-  // List of available DaisyUI themes
   readonly availableThemes = ['night', 'nord'];
 
-  get theme() {
+  get currentTheme() {
     return this.themeSignal();
   }
 
-  setTheme(theme: string) {
-    // Validate theme is in available themes
-    if (!this.availableThemes.includes(theme)) {
-      console.warn(`Theme "${theme}" is not a valid DaisyUI theme. Using "dark" instead.`);
-      theme = 'night';
-    }
-
-    this.themeSignal.set(theme);
-    localStorage.setItem('portfolio-theme', theme);
-  }
-
   constructor() {
-    // Initialize theme from localStorage if available
+    // 1. Create effect FIRST
+    effect(() => {
+      const theme = this.themeSignal();
+      this.document.documentElement.setAttribute('data-theme', theme);
+    });
+
+    // 2. Then initialize from localStorage
     const savedTheme = localStorage.getItem('portfolio-theme');
     if (savedTheme && this.availableThemes.includes(savedTheme)) {
-      this.themeSignal.set(savedTheme);
+      this.themeSignal.set(savedTheme); // This will trigger the effect
+    } else {
+      // Explicitly set default to trigger effect
+      this.themeSignal.set('night');
     }
+  }
 
-    // Set up an effect to apply the theme whenever it changes
-    effect(() => {
-      const currentTheme = this.themeSignal();
-      this.document.documentElement.setAttribute('data-theme', currentTheme);
-    });
+  setTheme(theme: string) {
+    if (!this.availableThemes.includes(theme)) {
+      theme = 'night';
+    }
+    this.themeSignal.set(theme);
+    localStorage.setItem('portfolio-theme', theme);
   }
 }
