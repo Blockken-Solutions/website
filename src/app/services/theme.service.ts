@@ -6,7 +6,7 @@ import { DOCUMENT } from '@angular/common';
 })
 export class ThemeService {
   private document = inject(DOCUMENT);
-  private themeSignal = signal<string>('night'); // Default theme
+  private themeSignal = signal<string>('night');
 
   readonly availableThemes = ['night', 'nord'];
 
@@ -15,18 +15,15 @@ export class ThemeService {
   }
 
   constructor() {
-    // 1. Create effect FIRST
     effect(() => {
       const theme = this.themeSignal();
       this.document.documentElement.setAttribute('data-theme', theme);
     });
 
-    // 2. Then initialize from localStorage
     const savedTheme = localStorage.getItem('portfolio-theme');
     if (savedTheme && this.availableThemes.includes(savedTheme)) {
       this.themeSignal.set(savedTheme); // This will trigger the effect
     } else {
-      // Explicitly set default to trigger effect
       this.themeSignal.set('night');
     }
   }
