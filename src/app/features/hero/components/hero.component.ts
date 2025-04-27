@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { TypewriterComponent } from '../shared/typewriter.component';
 import { RouterLink } from '@angular/router';
+import { TypewriterComponent } from '../../shared/components/typewriter.component';
 
 @Component({
   selector: 'app-hero',

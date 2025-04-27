@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { HeaderComponent } from './components/header/header.component';
-import { FooterComponent } from './components/footer/footer.component';
-import { ThemeService } from './services/theme.service';
+import { HeaderComponent } from './features/header/components/header.component';
+import { ThemeService } from './shared/services/theme.service';
+import { FooterComponent } from './features/footer/components/footer.component';
 
 @Component({
   selector: 'app-root',

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
   faDesktop,
@@ -40,24 +39,21 @@ import {
   siJest,
   siSonar,
 } from 'simple-icons/icons';
-
-interface Skill {
-  name: string;
-  isPrimary?: boolean;
-  icon?: any;
-  simpleIcon?: string;
-}
-
-interface SkillCategory {
-  name: string;
-  icon: any;
-  skills: Skill[];
-}
+import { AdditionalTechnologiesComponent } from './additional-technologies/additional-technologies.component';
+import { SkillCategoryComponent } from './skill-category/skill-category.component';
+import { SkillCategory } from '../models/skill.model';
 
 @Component({
   selector: 'app-skills',
   standalone: true,
-  imports: [CommonModule, FontAwesomeModule],
+  imports: [
+    CommonModule,
+    FontAwesomeModule,
+    SkillCategoryComponent,
+    AdditionalTechnologiesComponent,
+    AdditionalTechnologiesComponent,
+    SkillCategoryComponent,
+  ],
   template: `
     <section id="skills" class="py-20 bg-base-200">
       <div class="container mx-auto px-4">
@@ -71,62 +67,21 @@ interface SkillCategory {
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           @for (category of skillCategories; track category.name) {
-            <div
-              class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow border-l-4 border-primary"
-            >
-              <div class="card-body">
-                <h2 class="card-title text-xl">
-                  <span class="text-primary">
-                    <fa-icon [icon]="category.icon" class="w-6 h-6" />
-                  </span>
-                  {{ category.name }}
-                </h2>
-
-                <div class="flex flex-wrap gap-2 mt-4">
-                  @for (skill of category.skills; track skill.name) {
-                    <div
-                      class="badge badge-primary badge-lg py-3 gap-1.5"
-                      [ngClass]="!skill.isPrimary ? 'badge-outline' : ''"
-                    >
-                      @if (skill.simpleIcon) {
-                        <span
-                          *ngIf="getSimpleIcon(skill.simpleIcon)"
-                          class="w-4 h-4"
-                          [innerHTML]="getSimpleIcon(skill.simpleIcon)"
-                        ></span>
-                      } @else {
-                        <fa-icon [icon]="skill.icon" class="w-4 h-4 flex mr-1" />
-                      }
-                      {{ skill.name }}
-                    </div>
-                  }
-                </div>
-              </div>
-            </div>
+            <app-skill-category
+              [name]="category.name"
+              [icon]="category.icon"
+              [skills]="category.skills"
+              [iconMap]="iconMap"
+            ></app-skill-category>
           }
         </div>
 
-        <div
-          *ngIf="otherTechnologies.length > 0"
-          class="mt-16 p-8 bg-base-100 rounded-lg shadow-lg"
-        >
-          <h3 class="text-xl font-bold text-center mb-8">Additional Technologies</h3>
-          <div class="flex flex-wrap justify-center gap-3">
-            @for (tech of otherTechnologies; track tech) {
-              <span class="badge badge-lg badge-ghost p-3">{{ tech }}</span>
-            }
-          </div>
-        </div>
+        <app-additional-technologies
+          [technologies]="otherTechnologies"
+        ></app-additional-technologies>
       </div>
     </section>
   `,
-  styles: [
-    `
-      .badge svg {
-        vertical-align: -0.125em;
-      }
-    `,
-  ],
 })
 export class SkillsComponent {
   iconMap: { [key: string]: any } = {
@@ -139,10 +94,7 @@ export class SkillsComponent {
     Sonar: siSonar,
   };
 
-  constructor(
-    private sanitizer: DomSanitizer,
-    library: FaIconLibrary,
-  ) {
+  constructor(library: FaIconLibrary) {
     library.addIcons(
       faDesktop,
       faServer,
@@ -170,23 +122,6 @@ export class SkillsComponent {
       faJs,
       faGolang,
     );
-  }
-
-  getSimpleIcon(slug: string): SafeHtml {
-    const icon = this.iconMap[slug];
-
-    if (!icon) {
-      console.warn(`SimpleIcon not found: ${slug}`);
-      return '';
-    }
-
-    const svg = icon.svg
-      .replace(/^<svg /, '<svg fill="currentColor" ')
-      .replace(/width="\d+"/, '')
-      .replace(/height="\d+"/, '')
-      .replace(/<svg /, '<svg viewBox="0 0 24 24" ');
-
-    return this.sanitizer.bypassSecurityTrustHtml(svg);
   }
 
   skillCategories: SkillCategory[] = [

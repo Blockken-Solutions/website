@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ThemeService } from '../../services/theme.service';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { ThemeService } from '../../../shared/services/theme.service';
 
 @Component({
   selector: 'app-header',

@@ -1,11 +1,14 @@
 export interface Skill {
   name: string;
-  level: number;
-  icon: string;
-  color: string;
+  isPrimary?: boolean;
+  icon?: any;
+  simpleIcon?: string;
+  level?: number;
+  color?: string;
 }
 
 export interface SkillCategory {
   name: string;
+  icon: any;
   skills: Skill[];
 }
