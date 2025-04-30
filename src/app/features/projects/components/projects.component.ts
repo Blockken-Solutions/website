@@ -33,28 +33,26 @@ import {
             A showcase of my professional journey through projects, technologies, and client work.
           </p>
         </div>
-
         <!-- Filter and sort controls -->
         <div class="mb-8 flex flex-wrap gap-4 justify-center">
           <div class="join">
             <button
-              class="join-item btn btn-outline"
+              class="join-item btn btn-outline btn-md"
               [class.btn-primary]="viewMode === 'all'"
               (click)="setViewMode('all')"
             >
               All Projects
             </button>
             <button
-              class="join-item btn btn-outline"
+              class="join-item btn btn-outline btn-md"
               [class.btn-primary]="viewMode === 'client'"
               (click)="setViewMode('client')"
             >
               By Client
             </button>
           </div>
-
-          <div class="dropdown dropdown-hover">
-            <label tabindex="0" class="btn btn-outline m-1">
+          <div class="dropdown">
+            <label tabindex="0" class="btn btn-outline btn-md">
               <fa-icon [icon]="faFilter" class="mr-2"></fa-icon>
               Filter Technologies
               <fa-icon [icon]="faChevronDown" class="ml-2"></fa-icon>
@@ -72,35 +70,34 @@ import {
               }
             </ul>
           </div>
-
-          <button class="btn btn-outline" (click)="toggleSortDirection()">
-            <fa-icon [icon]="getSortIcon()" class="mr-2"></fa-icon>
-            {{ sortNewestFirst ? 'Newest First' : 'Oldest First' }}
+          <button class="btn btn-outline btn-md flex items-center" (click)="toggleSortDirection()">
+            <span class="inline-flex items-center">
+              <fa-icon [icon]="getSortIcon()" class="mr-2 flex items-center"></fa-icon>
+              {{ sortNewestFirst ? 'Newest First' : 'Oldest First' }}
+            </span>
           </button>
         </div>
-
         <!-- Active filters -->
         @if (activeFilters.length > 0) {
           <div class="flex flex-wrap gap-2 mb-6 justify-center">
             <span class="text-base opacity-70">Active filters:</span>
             @for (filter of activeFilters; track filter) {
-              <div class="badge badge-primary badge-lg gap-1">
+              <div class="badge badge-primary gap-1">
                 {{ filter }}
                 <button class="btn btn-xs btn-circle btn-ghost" (click)="toggleFilter(filter)">
                   <fa-icon [icon]="faTimes"></fa-icon>
                 </button>
               </div>
             }
-            <button class="btn btn-xs btn-ghost" (click)="clearFilters()">Clear all</button>
+            <button class="btn btn-ghost btn-xs" (click)="clearFilters()">Clear all</button>
           </div>
         }
-
         <!-- All projects view -->
         @if (viewMode === 'all') {
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             @for (project of filteredProjects; track project.id) {
               <div
-                class="card bg-base-200 shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300 h-full flex flex-col border-t-4 border-primary"
+                class="card bg-base-200 shadow-xl h-full flex flex-col border-t-4 border-primary"
               >
                 <div class="flex p-4 bg-base-300">
                   <!-- Logo area -->
@@ -130,24 +127,21 @@ import {
                     }
                   </div>
                 </div>
-
                 <div class="card-body flex-1 flex flex-col">
                   <!-- Date range -->
                   <div class="flex items-center gap-2 mb-4">
-                    <span class="text-primary">
+                    <span class="text-primary text-base">
                       <fa-icon [icon]="faCalendarAlt"></fa-icon>
                     </span>
                     {{ formatDate(project.startDate) }}
                     <fa-icon [icon]="faArrowRight"></fa-icon>
                     {{ project.endDate ? formatDate(project.endDate) : 'Present' }}
                   </div>
-
                   <p class="flex-1 text-base">{{ project.description }}</p>
-
                   <div class="flex flex-wrap gap-2 my-3">
                     @for (tag of project.tags; track tag) {
                       <span
-                        class="badge badge-primary cursor-pointer hover:badge-outline transition-colors"
+                        class="badge badge-primary badge-md cursor-pointer"
                         [class.badge-outline]="!activeFilters.includes(tag)"
                         (click)="toggleFilter(tag)"
                       >
@@ -155,7 +149,6 @@ import {
                       </span>
                     }
                   </div>
-
                   <div class="card-actions justify-end mt-auto">
                     @if (project.github) {
                       <a [href]="project.github" target="_blank" class="btn btn-outline btn-sm">
@@ -175,7 +168,6 @@ import {
             }
           </div>
         }
-
         <!-- Client view -->
         @if (viewMode === 'client') {
           <div class="space-y-12">
@@ -196,7 +188,6 @@ import {
                     class="text-primary"
                   ></fa-icon>
                 </div>
-
                 @if (expandedClients.includes(client.name)) {
                   <div class="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     @for (project of client.projects; track project.id) {
@@ -224,21 +215,22 @@ import {
                           <div class="flex flex-col justify-center">
                             <h3 class="text-xl font-bold">{{ project.title }}</h3>
                             <div class="flex items-center gap-2 text-base opacity-80">
-                              <fa-icon [icon]="faCalendarAlt" class="text-primary"></fa-icon>
+                              <fa-icon
+                                [icon]="faCalendarAlt"
+                                class="text-primary text-base"
+                              ></fa-icon>
                               {{ formatDate(project.startDate) }}
                               <fa-icon [icon]="faArrowRight"></fa-icon>
                               {{ project.endDate ? formatDate(project.endDate) : 'Present' }}
                             </div>
                           </div>
                         </div>
-
                         <div class="card-body flex-1 flex flex-col">
                           <p class="flex-1 text-base">{{ project.description }}</p>
-
                           <div class="flex flex-wrap gap-2 my-3">
                             @for (tag of project.tags; track tag) {
                               <span
-                                class="badge badge-primary cursor-pointer hover:badge-outline transition-colors"
+                                class="badge badge-primary badge-sm cursor-pointer"
                                 [class.badge-outline]="!activeFilters.includes(tag)"
                                 (click)="toggleFilter(tag)"
                               >
@@ -246,7 +238,6 @@ import {
                               </span>
                             }
                           </div>
-
                           <div class="card-actions justify-end mt-auto">
                             @if (project.github) {
                               <a
@@ -278,7 +269,6 @@ import {
             }
           </div>
         }
-
         <!-- No results message -->
         @if (filteredProjects.length === 0) {
           <div class="text-center py-12">
@@ -310,12 +300,8 @@ export class ProjectsComponent implements OnInit {
   faChevronDown = faChevronDown;
   faChevronUp = faChevronUp;
   faArrowRight = faArrowRight;
-  faClock = faClock;
   faFilter = faFilter;
   faTimes = faTimes;
-  faSort = faSort;
-  faSortUp = faSortUp;
-  faSortDown = faSortDown;
 
   ngOnInit() {
     this.projects = this.projectService.getProjects();
@@ -380,10 +366,12 @@ export class ProjectsComponent implements OnInit {
       );
     }
 
-    // Apply sort
+    // Apply sort using endDate (or current date for ongoing projects)
     this.filteredProjects.sort((a, b) => {
-      const dateA = new Date(a.startDate).getTime();
-      const dateB = new Date(b.startDate).getTime();
+      // For projects without an end date (ongoing), use current date
+      const currentDate = new Date().getTime();
+      const dateA = a.endDate ? new Date(a.endDate).getTime() : currentDate;
+      const dateB = b.endDate ? new Date(b.endDate).getTime() : currentDate;
       return this.sortNewestFirst ? dateB - dateA : dateA - dateB;
     });
   }
@@ -399,12 +387,15 @@ export class ProjectsComponent implements OnInit {
       clientMap.get(clientName)?.push(project);
     });
 
+    // Use current date for ongoing projects when sorting
+    const currentDate = new Date().getTime();
+
     this.clientGroups = Array.from(clientMap.entries())
       .map(([name, projects]) => ({
         name,
         projects: [...projects].sort((a, b) => {
-          const dateA = new Date(a.startDate).getTime();
-          const dateB = new Date(b.startDate).getTime();
+          const dateA = a.endDate ? new Date(a.endDate).getTime() : currentDate;
+          const dateB = b.endDate ? new Date(b.endDate).getTime() : currentDate;
           return this.sortNewestFirst ? dateB - dateA : dateA - dateB;
         }),
       }))

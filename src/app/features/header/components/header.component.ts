@@ -34,6 +34,7 @@ import { ThemeService } from '../../../shared/services/theme.service';
             >
               <li><a routerLink="/about" routerLinkActive="router-link-active">About</a></li>
               <li><a routerLink="/skills" routerLinkActive="router-link-active">Skills</a></li>
+              <li><a routerLink="/projects" routerLinkActive="router-link-active">Projects</a></li>
               <li><a routerLink="/contact" routerLinkActive="router-link-active">Contact</a></li>
             </ul>
           </div>
@@ -50,6 +51,7 @@ import { ThemeService } from '../../../shared/services/theme.service';
           <ul class="menu-lg menu-horizontal px-1">
             <li><a routerLink="/about" routerLinkActive="router-link-active">About</a></li>
             <li><a routerLink="/skills" routerLinkActive="router-link-active">Skills</a></li>
+            <li><a routerLink="/projects" routerLinkActive="router-link-active">Projects</a></li>
             <li><a routerLink="/contact" routerLinkActive="router-link-active">Contact</a></li>
           </ul>
         </div>

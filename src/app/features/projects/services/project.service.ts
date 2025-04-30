@@ -42,7 +42,7 @@ export class ProjectService {
     },
     {
       id: 3,
-      title: 'JAMstack Research & Application Development',
+      title: 'JAMstack Research & Development',
       description:
         'Research and comparison of JAMstack tools and development of a recruitment application',
       image: '/images/clients/aca-group.png',
@@ -249,7 +249,7 @@ export class ProjectService {
         'AWS',
         'Jest',
       ],
-      client: 'Vlaamse Overheid Departement Onderwijs en Vorming',
+      client: 'Vlaamse Overheid (Onderwijs & Vorming)',
       startDate: new Date('2025-01-01'),
     },
   ];
