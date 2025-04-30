@@ -94,7 +94,7 @@ import { CommonModule } from '@angular/common';
                         />
                       </svg>
                     </div>
-                    <span class="text-lg">Hasselt, BE</span>
+                    <span class="text-lg">Diest, BE</span>
                   </div>
                 </div>
 

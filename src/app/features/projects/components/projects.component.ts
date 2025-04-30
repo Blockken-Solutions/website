@@ -1,93 +1,426 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProjectService } from '../../services/project.service';
-import { Project } from '../../models/project.model';
+import { ProjectService } from '../services/project.service';
+import { Project } from '../models/project.model';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {
+  faCalendarAlt,
+  faBuilding,
+  faCodeBranch,
+  faGlobe,
+  faChevronDown,
+  faChevronUp,
+  faArrowRight,
+  faClock,
+  faFilter,
+  faTimes,
+  faSort,
+  faSortUp,
+  faSortDown,
+} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-projects',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FontAwesomeModule],
   template: `
     <section id="projects" class="py-20 bg-base-100">
       <div class="container mx-auto px-4">
         <div class="text-center mb-16">
-          <h2 class="text-3xl font-bold mb-2">My Projects</h2>
-          <div class="divider max-w-md mx-auto"></div>
+          <h2 class="text-3xl font-bold mb-2">Project Portfolio</h2>
+          <div class="divider divider-primary max-w-md mx-auto"></div>
           <p class="max-w-2xl mx-auto">
-            Here are some of my recent projects. Each project demonstrates different skills and
-            technologies.
+            A showcase of my professional journey through projects, technologies, and client work.
           </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          @for (project of projects; track project.id) {
-            <div
-              class="card bg-base-200 shadow-xl overflow-hidden hover:scale-105 transition-transform duration-300"
+        <!-- Filter and sort controls -->
+        <div class="mb-8 flex flex-wrap gap-4 justify-center">
+          <div class="join">
+            <button
+              class="join-item btn btn-outline"
+              [class.btn-primary]="viewMode === 'all'"
+              (click)="setViewMode('all')"
             >
-              <figure class="h-48 overflow-hidden">
-                <img
-                  [src]="project.image"
-                  [alt]="project.title"
-                  class="w-full object-cover object-center"
-                />
-              </figure>
-              <div class="card-body">
-                <h2 class="card-title">{{ project.title }}</h2>
-                <p>{{ project.description }}</p>
-                <div class="flex flex-wrap gap-2 my-2">
-                  @for (tag of project.tags; track tag) {
-                    <span class="badge badge-primary">{{ tag }}</span>
-                  }
+              All Projects
+            </button>
+            <button
+              class="join-item btn btn-outline"
+              [class.btn-primary]="viewMode === 'client'"
+              (click)="setViewMode('client')"
+            >
+              By Client
+            </button>
+          </div>
+
+          <div class="dropdown dropdown-hover">
+            <label tabindex="0" class="btn btn-outline m-1">
+              <fa-icon [icon]="faFilter" class="mr-2"></fa-icon>
+              Filter Technologies
+              <fa-icon [icon]="faChevronDown" class="ml-2"></fa-icon>
+            </label>
+            <ul
+              tabindex="0"
+              class="dropdown-content z-[1] menu p-2 shadow bg-base-200 rounded-box w-52 max-h-96 overflow-y-auto"
+            >
+              @for (tag of allTags; track tag) {
+                <li>
+                  <a [class.active]="activeFilters.includes(tag)" (click)="toggleFilter(tag)">
+                    {{ tag }}
+                  </a>
+                </li>
+              }
+            </ul>
+          </div>
+
+          <button class="btn btn-outline" (click)="toggleSortDirection()">
+            <fa-icon [icon]="getSortIcon()" class="mr-2"></fa-icon>
+            {{ sortNewestFirst ? 'Newest First' : 'Oldest First' }}
+          </button>
+        </div>
+
+        <!-- Active filters -->
+        @if (activeFilters.length > 0) {
+          <div class="flex flex-wrap gap-2 mb-6 justify-center">
+            <span class="text-base opacity-70">Active filters:</span>
+            @for (filter of activeFilters; track filter) {
+              <div class="badge badge-primary badge-lg gap-1">
+                {{ filter }}
+                <button class="btn btn-xs btn-circle btn-ghost" (click)="toggleFilter(filter)">
+                  <fa-icon [icon]="faTimes"></fa-icon>
+                </button>
+              </div>
+            }
+            <button class="btn btn-xs btn-ghost" (click)="clearFilters()">Clear all</button>
+          </div>
+        }
+
+        <!-- All projects view -->
+        @if (viewMode === 'all') {
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            @for (project of filteredProjects; track project.id) {
+              <div
+                class="card bg-base-200 shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300 h-full flex flex-col border-t-4 border-primary"
+              >
+                <div class="flex p-4 bg-base-300">
+                  <!-- Logo area -->
+                  <div
+                    class="w-16 h-16 rounded-full bg-base-100 flex items-center justify-center overflow-hidden mr-4 border-2 border-primary"
+                  >
+                    @if (project.image) {
+                      <img
+                        [src]="project.image"
+                        [alt]="project.title"
+                        class="w-full h-full object-cover"
+                      />
+                    } @else {
+                      <span class="text-xl font-bold text-primary">
+                        {{ project.title.charAt(0) }}
+                      </span>
+                    }
+                  </div>
+                  <!-- Title area -->
+                  <div class="flex flex-col justify-center">
+                    <h2 class="card-title">{{ project.title }}</h2>
+                    @if (project.client) {
+                      <div class="flex items-center gap-2 text-base opacity-80">
+                        <fa-icon [icon]="faBuilding" class="text-primary"></fa-icon>
+                        {{ project.client }}
+                      </div>
+                    }
+                  </div>
                 </div>
-                <div class="card-actions justify-end mt-4">
-                  @if (project.github) {
-                    <a [href]="project.github" target="_blank" class="btn btn-outline btn-sm">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        class="mr-1"
+
+                <div class="card-body flex-1 flex flex-col">
+                  <!-- Date range -->
+                  <div class="flex items-center gap-2 mb-4">
+                    <span class="text-primary">
+                      <fa-icon [icon]="faCalendarAlt"></fa-icon>
+                    </span>
+                    {{ formatDate(project.startDate) }}
+                    <fa-icon [icon]="faArrowRight"></fa-icon>
+                    {{ project.endDate ? formatDate(project.endDate) : 'Present' }}
+                  </div>
+
+                  <p class="flex-1 text-base">{{ project.description }}</p>
+
+                  <div class="flex flex-wrap gap-2 my-3">
+                    @for (tag of project.tags; track tag) {
+                      <span
+                        class="badge badge-primary cursor-pointer hover:badge-outline transition-colors"
+                        [class.badge-outline]="!activeFilters.includes(tag)"
+                        (click)="toggleFilter(tag)"
                       >
-                        <path
-                          d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
-                        />
-                      </svg>
-                      Code
-                    </a>
-                  }
-                  @if (project.demo) {
-                    <a [href]="project.demo" target="_blank" class="btn btn-primary btn-sm">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        class="mr-1"
-                      >
-                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                        <polyline points="15 3 21 3 21 9"></polyline>
-                        <line x1="10" y1="14" x2="21" y2="3"></line>
-                      </svg>
-                      Demo
-                    </a>
-                  }
+                        {{ tag }}
+                      </span>
+                    }
+                  </div>
+
+                  <div class="card-actions justify-end mt-auto">
+                    @if (project.github) {
+                      <a [href]="project.github" target="_blank" class="btn btn-outline btn-sm">
+                        <fa-icon [icon]="faCodeBranch" class="mr-2"></fa-icon>
+                        Code
+                      </a>
+                    }
+                    @if (project.demo) {
+                      <a [href]="project.demo" target="_blank" class="btn btn-primary btn-sm">
+                        <fa-icon [icon]="faGlobe" class="mr-2"></fa-icon>
+                        Demo
+                      </a>
+                    }
+                  </div>
                 </div>
               </div>
-            </div>
-          }
-        </div>
+            }
+          </div>
+        }
+
+        <!-- Client view -->
+        @if (viewMode === 'client') {
+          <div class="space-y-12">
+            @for (client of clientGroups; track client.name) {
+              <div class="bg-base-200 rounded-lg p-6 shadow-lg">
+                <div
+                  class="flex items-center justify-between cursor-pointer"
+                  (click)="toggleClientGroup(client.name)"
+                >
+                  <h3 class="text-xl font-bold flex items-center">
+                    <span class="text-primary mr-3">
+                      <fa-icon [icon]="faBuilding"></fa-icon>
+                    </span>
+                    {{ client.name || 'Personal Projects' }}
+                  </h3>
+                  <fa-icon
+                    [icon]="expandedClients.includes(client.name) ? faChevronUp : faChevronDown"
+                    class="text-primary"
+                  ></fa-icon>
+                </div>
+
+                @if (expandedClients.includes(client.name)) {
+                  <div class="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    @for (project of client.projects; track project.id) {
+                      <div
+                        class="card bg-base-100 shadow-xl border-t-4 border-primary h-full flex flex-col"
+                      >
+                        <div class="flex p-4 bg-base-300">
+                          <!-- Logo area -->
+                          <div
+                            class="w-16 h-16 rounded-full bg-base-200 flex items-center justify-center overflow-hidden mr-4 border-2 border-primary"
+                          >
+                            @if (project.image) {
+                              <img
+                                [src]="project.image"
+                                [alt]="project.title"
+                                class="w-full h-full object-cover"
+                              />
+                            } @else {
+                              <span class="text-xl font-bold text-primary">
+                                {{ project.title.charAt(0) }}
+                              </span>
+                            }
+                          </div>
+                          <!-- Title area -->
+                          <div class="flex flex-col justify-center">
+                            <h3 class="text-xl font-bold">{{ project.title }}</h3>
+                            <div class="flex items-center gap-2 text-base opacity-80">
+                              <fa-icon [icon]="faCalendarAlt" class="text-primary"></fa-icon>
+                              {{ formatDate(project.startDate) }}
+                              <fa-icon [icon]="faArrowRight"></fa-icon>
+                              {{ project.endDate ? formatDate(project.endDate) : 'Present' }}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="card-body flex-1 flex flex-col">
+                          <p class="flex-1 text-base">{{ project.description }}</p>
+
+                          <div class="flex flex-wrap gap-2 my-3">
+                            @for (tag of project.tags; track tag) {
+                              <span
+                                class="badge badge-primary cursor-pointer hover:badge-outline transition-colors"
+                                [class.badge-outline]="!activeFilters.includes(tag)"
+                                (click)="toggleFilter(tag)"
+                              >
+                                {{ tag }}
+                              </span>
+                            }
+                          </div>
+
+                          <div class="card-actions justify-end mt-auto">
+                            @if (project.github) {
+                              <a
+                                [href]="project.github"
+                                target="_blank"
+                                class="btn btn-outline btn-sm"
+                              >
+                                <fa-icon [icon]="faCodeBranch" class="mr-2"></fa-icon>
+                                Code
+                              </a>
+                            }
+                            @if (project.demo) {
+                              <a
+                                [href]="project.demo"
+                                target="_blank"
+                                class="btn btn-primary btn-sm"
+                              >
+                                <fa-icon [icon]="faGlobe" class="mr-2"></fa-icon>
+                                Demo
+                              </a>
+                            }
+                          </div>
+                        </div>
+                      </div>
+                    }
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        }
+
+        <!-- No results message -->
+        @if (filteredProjects.length === 0) {
+          <div class="text-center py-12">
+            <p class="text-xl opacity-70">No projects match your current filters.</p>
+            <button class="btn btn-primary mt-4" (click)="clearFilters()">Clear Filters</button>
+          </div>
+        }
       </div>
     </section>
   `,
+  styles: [],
 })
-export class ProjectsComponent {
+export class ProjectsComponent implements OnInit {
   private projectService = inject(ProjectService);
-  projects: Project[] = this.projectService.getProjects();
+  projects: Project[] = [];
+  filteredProjects: Project[] = [];
+  clientGroups: { name: string; projects: Project[] }[] = [];
+  expandedClients: string[] = [];
+  allTags: string[] = [];
+  viewMode: 'all' | 'client' = 'all';
+  activeFilters: string[] = [];
+  sortNewestFirst: boolean = true;
+
+  // FontAwesome icons
+  faCalendarAlt = faCalendarAlt;
+  faBuilding = faBuilding;
+  faCodeBranch = faCodeBranch;
+  faGlobe = faGlobe;
+  faChevronDown = faChevronDown;
+  faChevronUp = faChevronUp;
+  faArrowRight = faArrowRight;
+  faClock = faClock;
+  faFilter = faFilter;
+  faTimes = faTimes;
+  faSort = faSort;
+  faSortUp = faSortUp;
+  faSortDown = faSortDown;
+
+  ngOnInit() {
+    this.projects = this.projectService.getProjects();
+    this.applyFiltersAndSort();
+    this.generateClientGroups();
+    this.extractAllTags();
+  }
+
+  setViewMode(mode: 'all' | 'client') {
+    this.viewMode = mode;
+  }
+
+  toggleFilter(tag: string) {
+    if (this.activeFilters.includes(tag)) {
+      this.activeFilters = this.activeFilters.filter((t) => t !== tag);
+    } else {
+      this.activeFilters.push(tag);
+    }
+    this.applyFiltersAndSort();
+    this.generateClientGroups();
+  }
+
+  clearFilters() {
+    this.activeFilters = [];
+    this.applyFiltersAndSort();
+    this.generateClientGroups();
+  }
+
+  toggleSortDirection() {
+    this.sortNewestFirst = !this.sortNewestFirst;
+    this.applyFiltersAndSort();
+    this.generateClientGroups();
+  }
+
+  getSortIcon() {
+    return this.sortNewestFirst ? faSortDown : faSortUp;
+  }
+
+  toggleClientGroup(clientName: string) {
+    if (this.expandedClients.includes(clientName)) {
+      this.expandedClients = this.expandedClients.filter((name) => name !== clientName);
+    } else {
+      this.expandedClients.push(clientName);
+    }
+  }
+
+  formatDate(date: Date | undefined): string {
+    if (!date) return 'Present';
+    return new Date(date).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+    });
+  }
+
+  private applyFiltersAndSort() {
+    // Apply filters
+    if (this.activeFilters.length === 0) {
+      this.filteredProjects = [...this.projects];
+    } else {
+      this.filteredProjects = this.projects.filter((project) =>
+        this.activeFilters.every((tag) => project.tags.includes(tag)),
+      );
+    }
+
+    // Apply sort
+    this.filteredProjects.sort((a, b) => {
+      const dateA = new Date(a.startDate).getTime();
+      const dateB = new Date(b.startDate).getTime();
+      return this.sortNewestFirst ? dateB - dateA : dateA - dateB;
+    });
+  }
+
+  private generateClientGroups() {
+    const clientMap = new Map<string, Project[]>();
+
+    this.filteredProjects.forEach((project) => {
+      const clientName = project.client || 'Personal';
+      if (!clientMap.has(clientName)) {
+        clientMap.set(clientName, []);
+      }
+      clientMap.get(clientName)?.push(project);
+    });
+
+    this.clientGroups = Array.from(clientMap.entries())
+      .map(([name, projects]) => ({
+        name,
+        projects: [...projects].sort((a, b) => {
+          const dateA = new Date(a.startDate).getTime();
+          const dateB = new Date(b.startDate).getTime();
+          return this.sortNewestFirst ? dateB - dateA : dateA - dateB;
+        }),
+      }))
+      .sort((a, b) => a.name.localeCompare(b.name));
+
+    // Expand the first client by default if none are expanded
+    if (this.expandedClients.length === 0 && this.clientGroups.length > 0) {
+      this.expandedClients = [this.clientGroups[0].name];
+    }
+  }
+
+  private extractAllTags() {
+    const tagSet = new Set<string>();
+    this.projects.forEach((project) => {
+      project.tags.forEach((tag) => tagSet.add(tag));
+    });
+    this.allTags = Array.from(tagSet).sort();
+  }
 }

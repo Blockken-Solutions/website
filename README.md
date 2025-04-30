@@ -1,59 +1,52 @@
-# BlockkenSolutions
+# Blockken Solutions - Professional Portfolio Website
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.0.
+![Blockken Solutions](https://img.shields.io/badge/Blockken-Solutions-blue)
+![Angular](https://img.shields.io/badge/Angular-DD0031)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-38B2AC)
+![DaisyUI](https://img.shields.io/badge/DaisyUI-5A0EF8)
 
-## Development server
+A modern, responsive portfolio website showcasing the professional skills, projects, and services of Wouter Blockken, a Fullstack Java & Angular Developer and AWS Solutions Architect.
 
-To start a local development server, run:
+## Features
 
-```bash
-ng serve
-```
+- **Responsive Design**: Fully responsive layout that works on all devices
+- **Modern UI**: Clean, professional interface with smooth animations
+- **Theme Switching**: Support for multiple themes including dark mode
+- **Interactive Components**: Dynamic content presentation with modern Angular features
+- **Optimized Performance**: Fast loading times and smooth interactions
+- **SEO Friendly**: Structured for optimal search engine visibility
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Sections
 
-## Code scaffolding
+- **Hero**: Introduction with professional summary and social links
+- **Skills**: Comprehensive showcase of technical skills organized by categories
+- **Projects**: Portfolio of recent work with descriptions and links
+- **Contact**: Multiple ways to connect including email, phone, and social media
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Technologies Used
 
-```bash
-ng generate component component-name
-```
+### Frontend
+- Angular
+- TailwindCSS
+- DaisyUI
+- TypeScript
+- FontAwesome Icons
+- Simple Icons
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### Development Tools
+- ESLint
+- Prettier
+- Angular CLI
+- npm
 
-```bash
-ng generate --help
-```
+## Contact
 
-## Building
+Wouter Blockken - [wouter@blockken.solutions](mailto:wouter@blockken.solutions)
 
-To build the project run:
+- GitHub: [https://github.com/blockken-solutions](https://github.com/blockken-solutions)
+- LinkedIn: [https://www.linkedin.com/in/wouter-blockken/](https://www.linkedin.com/in/wouter-blockken/)
+- Location: Hasselt, Belgium
 
-```bash
-ng build
-```
+---
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Built with Angular
