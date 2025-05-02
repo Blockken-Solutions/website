@@ -24,7 +24,7 @@ import {
   standalone: true,
   imports: [CommonModule, FontAwesomeModule],
   template: `
-    <section id="projects" class="py-20 bg-base-100">
+    <section id="projects" class="py-20 bg-base-200">
       <div class="container mx-auto px-4">
         <div class="text-center mb-16">
           <h2 class="text-3xl font-bold mb-2">Project Portfolio</h2>

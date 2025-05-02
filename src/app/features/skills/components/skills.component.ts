@@ -59,7 +59,7 @@ import { SkillCategory } from '../models/skill.model';
       <div class="container mx-auto px-4">
         <div class="text-center mb-16">
           <h2 class="text-3xl font-bold mb-2">Technical Skills</h2>
-          <div class="divider max-w-md mx-auto"></div>
+          <div class="divider divider-primary max-w-md mx-auto"></div>
           <p class="max-w-2xl mx-auto">
             I specialize in modern technologies and continuously expand my skill set.
           </p>

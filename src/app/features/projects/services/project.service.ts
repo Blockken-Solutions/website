@@ -101,7 +101,7 @@ export class ProjectService {
         'Liferay portal for administration and document management for employees and customers of De Watergroep',
       image: '/images/clients/dwg.svg',
       tags: [
-        'Spring Boot 3+',
+        'Spring Boot 3',
         'Java',
         'Angular 14+',
         'Reactive Programming',
@@ -159,7 +159,7 @@ export class ProjectService {
       description: 'New website(s) and internal platform for employees in new Liferay portal',
       image: '/images/clients/jessa-ziekenhuis.jpg',
       tags: [
-        'Spring Boot 3+',
+        'Spring Boot 3',
         'Freemarker',
         'Groovy',
         'Java',

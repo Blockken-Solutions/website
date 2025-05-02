@@ -1,20 +1,21 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 
 @Component({
   selector: 'app-contact',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, FaIconComponent],
   template: `
-    <section id="contact" class="py-20 bg-base-100">
+    <section id="contact" class="py-20 bg-base-200">
       <div class="container mx-auto px-4">
         <div class="text-center mb-12">
           <h2 class="text-4xl font-bold mb-4">Let's Connect</h2>
           <div class="divider divider-primary max-w-xs mx-auto"></div>
           <p class="text-lg opacity-90 mt-4">Reach out through any channel below</p>
         </div>
-
         <div class="max-w-2xl mx-auto">
           <div
             class="card bg-gradient-to-br from-base-100 to-primary/10 shadow-2xl border border-primary/20"
@@ -48,7 +49,6 @@ import { CommonModule } from '@angular/common';
                       wouter&#64;blockken.solutions
                     </a>
                   </div>
-
                   <!-- Phone -->
                   <div class="flex items-center gap-4">
                     <div class="p-3 rounded-box bg-primary/10">
@@ -69,7 +69,6 @@ import { CommonModule } from '@angular/common';
                     </div>
                     <span class="text-lg">(+32) 471 12 87 27</span>
                   </div>
-
                   <!-- Location -->
                   <div class="flex items-center gap-4">
                     <div class="p-3 rounded-box bg-primary/10">
@@ -97,7 +96,6 @@ import { CommonModule } from '@angular/common';
                     <span class="text-lg">Diest, BE</span>
                   </div>
                 </div>
-
                 <!-- Social Links with Top Spacing -->
                 <div class="mt-12 flex gap-4 justify-center">
                   <a
@@ -105,14 +103,14 @@ import { CommonModule } from '@angular/common';
                     target="_blank"
                     class="btn btn-ghost btn-square text-xl hover:bg-primary/10 hover:text-primary"
                   >
-                    <i class="fa-brands fa-github"></i>
+                    <fa-icon [icon]="faGithub"></fa-icon>
                   </a>
                   <a
                     href="https://linkedin.com/in/wouter-blockken/"
                     target="_blank"
                     class="btn btn-ghost btn-square text-xl hover:bg-primary/10 hover:text-primary"
                   >
-                    <i class="fa-brands fa-linkedin"></i>
+                    <fa-icon [icon]="faLinkedin"></fa-icon>
                   </a>
                 </div>
               </div>
@@ -123,4 +121,7 @@ import { CommonModule } from '@angular/common';
     </section>
   `,
 })
-export class ContactComponent {}
+export class ContactComponent {
+  faGithub = faGithub;
+  faLinkedin = faLinkedin;
+}
