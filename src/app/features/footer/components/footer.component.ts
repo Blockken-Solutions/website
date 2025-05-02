@@ -22,11 +22,9 @@ import { RouterLink } from '@angular/router';
           <div>
             <h3 class="text-lg font-bold mb-4">Quick Links</h3>
             <ul class="space-y-2">
-              <li><a routerLink="/" class="link link-hover">Home</a></li>
               <li><a routerLink="/about" class="link link-hover">About</a></li>
               <li><a routerLink="/skills" class="link link-hover">Skills</a></li>
               <li><a routerLink="/projects" class="link link-hover">Projects</a></li>
-              <li><a routerLink="/experience" class="link link-hover">Experience</a></li>
               <li><a routerLink="/contact" class="link link-hover">Contact</a></li>
             </ul>
           </div>
