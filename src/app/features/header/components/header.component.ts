@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, inject } from '@angular/core';
+import { Component, Output, EventEmitter, inject, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { ThemeService } from '../../../shared/services/theme.service';
@@ -12,7 +12,7 @@ import { ThemeService } from '../../../shared/services/theme.service';
       <div class="navbar container mx-auto">
         <div class="navbar-start">
           <div class="dropdown">
-            <label tabindex="0" class="btn btn-ghost lg:hidden">
+            <label #dropdownToggle tabindex="0" class="btn btn-ghost lg:hidden">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="h-5 w-5"
@@ -29,13 +29,44 @@ import { ThemeService } from '../../../shared/services/theme.service';
               </svg>
             </label>
             <ul
-              tabindex="0"
-              class="menu menu-md dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+              class="menu menu-md dropdown-content font-bold mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
-              <li><a routerLink="/about" routerLinkActive="router-link-active">About</a></li>
-              <li><a routerLink="/skills" routerLinkActive="router-link-active">Skills</a></li>
-              <li><a routerLink="/projects" routerLinkActive="router-link-active">Projects</a></li>
-              <li><a routerLink="/contact" routerLinkActive="router-link-active">Contact</a></li>
+              <li>
+                <a
+                  routerLink="/about"
+                  routerLinkActive="router-link-active"
+                  (click)="closeDropdownMenu()"
+                >
+                  About
+                </a>
+              </li>
+              <li>
+                <a
+                  routerLink="/skills"
+                  routerLinkActive="router-link-active"
+                  (click)="closeDropdownMenu()"
+                >
+                  Skills
+                </a>
+              </li>
+              <li>
+                <a
+                  routerLink="/projects"
+                  routerLinkActive="router-link-active"
+                  (click)="closeDropdownMenu()"
+                >
+                  Projects
+                </a>
+              </li>
+              <li>
+                <a
+                  routerLink="/contact"
+                  routerLinkActive="router-link-active"
+                  (click)="closeDropdownMenu()"
+                >
+                  Contact
+                </a>
+              </li>
             </ul>
           </div>
           <a
@@ -48,7 +79,7 @@ import { ThemeService } from '../../../shared/services/theme.service';
         </div>
 
         <div class="navbar-center hidden lg:flex">
-          <ul class="menu-lg menu-horizontal px-1">
+          <ul class="menu-lg menu-horizontal font-bold px-1">
             <li><a routerLink="/about" routerLinkActive="router-link-active">About</a></li>
             <li><a routerLink="/skills" routerLinkActive="router-link-active">Skills</a></li>
             <li><a routerLink="/projects" routerLinkActive="router-link-active">Projects</a></li>
@@ -105,7 +136,8 @@ export class HeaderComponent {
   @Output() themeChanged = new EventEmitter<string>();
   private themeService = inject(ThemeService);
 
-  // Use getter to always get fresh value
+  @ViewChild('dropdownToggle') dropdownToggleRef!: ElementRef<HTMLElement>;
+
   get isDarkTheme() {
     return this.themeService.currentTheme === 'night';
   }
@@ -114,5 +146,17 @@ export class HeaderComponent {
     const newTheme = this.isDarkTheme ? 'nord' : 'night';
     this.themeService.setTheme(newTheme);
     this.themeChanged.emit(newTheme);
+  }
+
+  closeDropdownMenu() {
+    setTimeout(() => {
+      if (document.activeElement instanceof HTMLElement) {
+        document.activeElement.blur();
+      }
+
+      if (this.dropdownToggleRef && this.dropdownToggleRef.nativeElement) {
+        this.dropdownToggleRef.nativeElement.blur();
+      }
+    }, 0);
   }
 }
