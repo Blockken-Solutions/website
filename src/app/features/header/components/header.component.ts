@@ -33,6 +33,7 @@ import { ThemeService } from '../../../shared/services/theme.service';
             >
               <li>
                 <a
+                  class="btn btn-ghost"
                   routerLink="/about"
                   routerLinkActive="router-link-active"
                   (click)="closeDropdownMenu()"
@@ -42,6 +43,7 @@ import { ThemeService } from '../../../shared/services/theme.service';
               </li>
               <li>
                 <a
+                  class="btn btn-ghost"
                   routerLink="/skills"
                   routerLinkActive="router-link-active"
                   (click)="closeDropdownMenu()"
@@ -51,6 +53,7 @@ import { ThemeService } from '../../../shared/services/theme.service';
               </li>
               <li>
                 <a
+                  class="btn btn-ghost"
                   routerLink="/projects"
                   routerLinkActive="router-link-active"
                   (click)="closeDropdownMenu()"
@@ -60,6 +63,7 @@ import { ThemeService } from '../../../shared/services/theme.service';
               </li>
               <li>
                 <a
+                  class="btn btn-ghost"
                   routerLink="/contact"
                   routerLinkActive="router-link-active"
                   (click)="closeDropdownMenu()"
@@ -80,10 +84,38 @@ import { ThemeService } from '../../../shared/services/theme.service';
 
         <div class="navbar-center hidden lg:flex">
           <ul class="menu-lg menu-horizontal font-bold px-1">
-            <li><a routerLink="/about" routerLinkActive="router-link-active">About</a></li>
-            <li><a routerLink="/skills" routerLinkActive="router-link-active">Skills</a></li>
-            <li><a routerLink="/projects" routerLinkActive="router-link-active">Projects</a></li>
-            <li><a routerLink="/contact" routerLinkActive="router-link-active">Contact</a></li>
+            <li>
+              <a
+                class="btn btn-ghost mr-1"
+                routerLink="/about"
+                routerLinkActive="router-link-active"
+              >
+                About
+              </a>
+            </li>
+            <li>
+              <a
+                class="btn btn-ghost mr-1"
+                routerLink="/skills"
+                routerLinkActive="router-link-active"
+              >
+                Skills
+              </a>
+            </li>
+            <li>
+              <a
+                class="btn btn-ghost mr-1"
+                routerLink="/projects"
+                routerLinkActive="router-link-active"
+              >
+                Projects
+              </a>
+            </li>
+            <li>
+              <a class="btn btn-ghost" routerLink="/contact" routerLinkActive="router-link-active">
+                Contact
+              </a>
+            </li>
           </ul>
         </div>
 

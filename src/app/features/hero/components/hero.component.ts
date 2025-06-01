@@ -8,7 +8,10 @@ import { TypewriterComponent } from '../../shared/components/typewriter.componen
   standalone: true,
   imports: [CommonModule, TypewriterComponent, NgOptimizedImage, RouterLink],
   template: `
-    <section class="hero min-h-screen bg-base-200">
+    <section class="hero min-h-screen bg-base-200 relative overflow-hidden">
+      <div class="absolute -top-24 -right-24 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
+      <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
+
       <div class="hero-content flex-col lg:flex-row-reverse">
         <div class="avatar">
           <div class="w-64 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
