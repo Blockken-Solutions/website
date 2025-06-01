@@ -126,7 +126,7 @@ import { ThemeService } from '../../../shared/services/theme.service';
             </svg>
           </button>
 
-          <a routerLink="/contact" class="btn btn-primary">Hire Me</a>
+          <a routerLink="/contact" class="btn btn-primary font-bold">Hire Me</a>
         </div>
       </div>
     </header>
