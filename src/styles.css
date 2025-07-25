@@ -12,4 +12,3 @@ html, body, app-root {
 .router-link-active {
   @apply text-primary;
 }
-
